@@ -37,7 +37,7 @@
             filter: blur(2px);
         }
 
-        /* 20円貸プレートのカーブを完璧に再現 */
+        /* 20円貸プレート of スロットサンド */
         .rate-plate {
             background: linear-gradient(to right, #ffffff 0%, #ffffff 82%, rgba(255,255,255,0) 100%);
             border-top-left-radius: 9999px;
@@ -47,9 +47,7 @@
             box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.25);
         }
 
-        /* -----------------------------------------------------------------
-           【実機再現】入金残高プレート (白枠・銀枠ツートンの質感表現)
-        ----------------------------------------------------------------- */
+        /* 入金残高プレート (白枠・銀枠ツートンの質感表現) */
         .silver-metallic-border {
             background: linear-gradient(135deg, 
                 #f43f5e 0%,    /* ピンク要素のアクセント外線 */
@@ -80,9 +78,7 @@
             color: #1e293b;
         }
 
-        /* -----------------------------------------------------------------
-           【実機再現】持ちメダルプレート (白枠・金枠ツートンの質感表現)
-        ----------------------------------------------------------------- */
+        /* 持ちメダルプレート (白枠・金枠ツートンの質感表現) */
         .gold-metallic-border {
             background: linear-gradient(135deg, 
                 #eab308 0%,    /* ゴールド外線 */
@@ -219,15 +215,13 @@
                     </div>
                 </div>
 
-                <!-- A: 【実機再現】入金残高セクション (銀枠・白背景・黒文字 / タップすると1万円追加) -->
+                <!-- A: 入金残高セクション (銀枠・白背景・黒文字 / タップすると1万円追加) -->
                 <div class="silver-metallic-border cursor-pointer" onclick="addTenThousand()" title="タップして1万円入金">
                     <div class="balance-inner-bg rounded-[9px] px-3.5 py-2.5 flex justify-between items-center min-h-[58px]">
                         <div class="flex flex-col justify-center">
-                            <!-- 実機同様に「入金残高」文字色は黒 -->
                             <span class="text-slate-800 text-[11px] font-black tracking-wider">入金残高</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <!-- デジタル数字および通貨単位も実機通りの黒 -->
                             <div class="flex items-baseline text-slate-900">
                                 <span id="balance-num" class="text-3xl font-bold real-digital-num text-[#111827] pr-1">0</span>
                                 <span class="text-xs font-black text-slate-800">円</span>
@@ -239,7 +233,7 @@
                     </div>
                 </div>
 
-                <!-- B: 【実機再現】持ちメダルセクション (金枠・白イエロー背景・黒文字・マゼンタ23箱バッジ / タップで編集) -->
+                <!-- B: 持ちメダルセクション (金枠・白イエロー背景・黒文字・マゼンタ23箱バッジ / タップで編集) -->
                 <div class="gold-metallic-border cursor-pointer" onclick="openTokensModal()" title="タップして持ちメダル手動設定">
                     <div class="tokens-inner-bg rounded-[9px] px-3.5 py-2.5 flex flex-col justify-between min-h-[70px] relative">
                         
@@ -247,7 +241,7 @@
                         <div class="flex justify-between items-center w-full">
                             <span class="text-slate-900 text-[11px] font-black tracking-wider">持ちメダル</span>
                             
-                            <!-- 実機ピンクバッジ（23箱表示デザインの再現） -->
+                            <!-- 実機ピンクバッジ -->
                             <div id="box-badge" class="bg-[#eb4095] text-white text-[11px] font-black px-3 py-0.5 rounded-full shadow flex items-center justify-center gap-0.5 min-w-[50px] border border-white/20">
                                 <span id="box-num" class="font-mono text-xs">0</span>
                                 <span class="text-[9px]">箱</span>
@@ -275,13 +269,13 @@
 
             <!-- 3. 操作ボタン (貸出 / 再プレイ / 返却) -->
             <div class="grid grid-cols-3 gap-2">
-                <!-- 貸出ボタン (レートに応じて金額が可変) -->
+                <!-- 貸出ボタン -->
                 <button onclick="onRentPress()" id="btn-rent" class="real-push-btn bg-gradient-to-b from-amber-400 to-amber-600 border border-amber-300 text-slate-950 font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-coins mr-0.5"></i>貸 出</span>
                     <span id="rent-sub-text" class="text-[8px] opacity-90">1回 1,000円</span>
                 </button>
 
-                <!-- 再プレイボタン (一律50枚消費) -->
+                <!-- 再プレイボタン -->
                 <button onclick="onReplayPress()" id="btn-replay" class="real-push-btn bg-gradient-to-b from-emerald-500 to-emerald-700 border border-emerald-400 text-white font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-rotate-right mr-0.5"></i>再プレイ</span>
                     <span class="text-[8px] opacity-90">1回 50枚</span>
@@ -303,7 +297,7 @@
 
     </div>
 
-    <!-- ＝＝＝ レート変更用カスタムモーダル（ポップアップ） ＝＝＝ -->
+    <!-- ＝＝＝ レート変更用カスタムモーダル ＝＝＝ -->
     <div id="rate-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex items-center justify-center p-4 rounded-2xl">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-xs rounded-xl p-4 shadow-2xl flex flex-col gap-3">
             <div class="text-center">
@@ -342,7 +336,7 @@
         </div>
     </div>
 
-    <!-- ＝＝＝ 持ちメダル入力カスタムモーダル（ポップアップ） ＝＝＝ -->
+    <!-- ＝＝＝ 持ちメダル入力カスタムモーダル ＝＝＝ -->
     <div id="input-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex items-center justify-center p-4 rounded-2xl">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-xs rounded-xl p-4 shadow-2xl flex flex-col gap-3">
             <div class="text-center">
@@ -440,10 +434,17 @@
         </div>
     </div>
 
-    <!-- Firebase SDK Modules -->
+    <!-- Firebase SDK Modules (明示的永続化のインポート＆設定) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getAuth, 
+            signInWithCustomToken, 
+            signInAnonymously, 
+            onAuthStateChanged,
+            setPersistence,
+            browserLocalPersistence 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Firebase設定のロード
@@ -480,12 +481,19 @@
             return null;
         };
 
-        // Firebase認証処理
+        // Firebase認証処理 (ブラウザを閉じても維持されるようPersistenceをLOCALに明示指定)
         const initAuth = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
+            try {
+                // 明示的にブラウザのローカル永続性を設定
+                await setPersistence(auth, browserLocalPersistence);
+                
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error("Auth persistent setup failed:", err);
             }
         };
 
@@ -581,7 +589,7 @@
             balance: 0,
             tokens: 0,
             totalInvest: 0,
-            rate: 20 // 1枚あたりの単価 (デフォルト20円)
+            rate: 20 // デフォルト20円
         };
 
         // 精算時に一時保管するデータ
@@ -593,7 +601,7 @@
             rate: 20
         };
 
-        const LEASE_TOKENS_PER_TIME = 50; // 1回の貸出枚数は常に一律50枚
+        const LEASE_TOKENS_PER_TIME = 50; // 1回の貸出枚数は一律50枚
 
         // DOM
         const headerRateVal = document.getElementById('header-rate-val');
@@ -640,7 +648,7 @@
             balanceNum.textContent = state.balance.toLocaleString();
             tokensNum.textContent = state.tokens.toLocaleString();
 
-            // ドル箱の計算 (1箱あたりおよそ713.565枚換算)
+            // ドル箱の計算
             let calculatedBoxes = 0;
             if (state.tokens > 0) {
                 calculatedBoxes = Math.floor(state.tokens / 713.565);
@@ -704,10 +712,9 @@
             state.totalInvest = loadedState.totalInvest ?? 0;
             state.rate = loadedState.rate ?? 20;
             refreshDisplay();
-            logMessage("紙幣・カードをお入れください");
+            logMessage("データをクラウドから復元しました");
         };
 
-        // デフォルト初期化
         window.initDefaultState = function() {
             state.hasCard = false;
             state.balance = 0;
@@ -840,7 +847,7 @@
                 receiptDiffMoney.className = "font-bold text-rose-600";
             }
 
-            // 実機を一次的に空にする演出
+            // 実機を一時的に空にする
             state.hasCard = false;
             state.balance = 0;
             state.tokens = 0;
@@ -910,7 +917,7 @@
             // レート変更の実行
             state.rate = targetRate;
             
-            // ★ご要望：レート変更時、所持金や持ちメダルなどすべてのデータを完全にリセット
+            // レート変更時にすべてのデータを完全にリセット
             state.hasCard = false;
             state.balance = 0;
             state.tokens = 0;
