@@ -29,6 +29,28 @@
             /* iOSノッチ（セーフエリア）に対応するためのパディング設定 */
             padding-top: max(1rem, env(safe-area-inset-top));
             padding-bottom: max(1rem, env(safe-area-inset-bottom));
+
+            /* 画面固定・オーバースクロール（バウンス）防止・ズーム防止の追加 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            touch-action: none; /* デフォルトのズーム・スクロール・ダブルタップ挙動を完全に禁止 */
+            overscroll-behavior: none; /* スクロールバウンスを禁止 */
+        }
+
+        /* 各パーツの長押し時のポップアップ（リンクプレビューや辞書など）と選択を徹底的に無効化 */
+        * {
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+        }
+
+        /* 入力エリアは例外として選択やフォーカスを許可 */
+        input[type="number"] {
+            -webkit-user-select: auto !important;
+            user-select: auto !important;
         }
 
         /* 画像上部の青色のぼんやりした発光シグナルを再現 */
@@ -66,6 +88,7 @@
                 0 4px 10px rgba(0, 0, 0, 0.4),
                 inset 0 1px 2px rgba(255, 255, 255, 0.6);
             transition: transform 0.08s ease, filter 0.08s ease;
+            touch-action: manipulation;
         }
         .silver-metallic-border:active {
             transform: scale(0.98);
@@ -97,6 +120,7 @@
                 0 4px 10px rgba(0, 0, 0, 0.4),
                 inset 0 1px 2px rgba(255, 255, 255, 0.6);
             transition: transform 0.08s ease, filter 0.08s ease;
+            touch-action: manipulation;
         }
         .gold-metallic-border:active {
             transform: scale(0.98);
@@ -122,6 +146,7 @@
             position: relative;
             transition: all 0.05s ease;
             box-shadow: 0 4px 0px #090d16, 0 6px 12px rgba(0,0,0,0.5);
+            touch-action: manipulation; /* ダブルタップによるズーム遅延を無効化 */
         }
         .real-push-btn:active {
             transform: translateY(3px);
@@ -390,6 +415,11 @@
                     <span>▶ 実質投資</span>
                     <span id="receipt-net-invest">0 円</span>
                 </div>
+                <!-- 投資枚数の表示エリア -->
+                <div class="flex justify-between text-rose-600 font-bold">
+                    <span>▶ 投資枚数</span>
+                    <span id="receipt-invest-tokens">0 枚</span>
+                </div>
                 
                 <div class="border-b receipt-dashed my-1"></div>
                 
@@ -627,6 +657,7 @@
         const receiptTotalInvest = document.getElementById('receipt-total-invest');
         const receiptReturnedBal = document.getElementById('receipt-returned-bal');
         const receiptNetInvest = document.getElementById('receipt-net-invest');
+        const receiptInvestTokens = document.getElementById('receipt-invest-tokens'); // 投資枚数のDOM
         const receiptTokens = document.getElementById('receipt-tokens');
         const receiptBoxes = document.getElementById('receipt-boxes');
         const receiptDiffTokens = document.getElementById('receipt-diff-tokens');
@@ -737,7 +768,7 @@
             saveState();
         }
 
-        // 2. 貸出 (1回50枚＝レートに応じた金額を減算)
+        // 2. 貸出 (1回50枚＝レートに応じた金額を減算。※持ちメダルは増えないよう変更)
         function onRentPress() {
             const rentCost = getRentCost();
             if (!state.hasCard || state.balance < rentCost) {
@@ -748,6 +779,8 @@
 
             playSoundEffect('coin');
             state.balance -= rentCost;
+            
+            // 修正箇所：貸出ボタンを押してもstate.tokens（持ちメダル）は増やさない
 
             logMessage("度数精算中");
             refreshDisplay();
@@ -810,6 +843,9 @@
             const netInvestVal = totalInvestVal - returnedBalVal;
             const tokensVal = state.tokens;
 
+            // 実質投資枚数の計算 (実質投資額 / 現在のレート)
+            const investTokensVal = state.rate > 0 ? Math.floor(netInvestVal / state.rate) : 0;
+
             let calculatedBoxes = 0;
             if (tokensVal > 0) {
                 calculatedBoxes = Math.floor(tokensVal / 713.565);
@@ -826,6 +862,8 @@
             receiptTotalInvest.textContent = `${totalInvestVal.toLocaleString()} 円`;
             receiptReturnedBal.textContent = `${returnedBalVal.toLocaleString()} 円`;
             receiptNetInvest.textContent = `${netInvestVal.toLocaleString()} 円`;
+            receiptInvestTokens.textContent = `${investTokensVal.toLocaleString()} 枚`; // 投資枚数の更新表示
+            
             receiptTokens.textContent = tokensVal.toLocaleString();
             receiptBoxes.textContent = `${calculatedBoxes} 箱`;
 
@@ -965,6 +1003,34 @@
             logMessage("持ちメダルを手動設定しました");
             saveState();
         }
+
+        // -----------------------------------------------------------------
+        // 【iOS/Android等でのダブルタップズーム・オーバースクロール等の強制無効化処理】
+        // -----------------------------------------------------------------
+        document.addEventListener('touchstart', function(event) {
+            // マルチタッチ（ピンチズーム等）を防止
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            // 300ms以内の連続タップ（ダブルタップ）によるブラウザのデフォルトズーム挙動を防止
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, { passive: false });
+
+        // 画面全体が上下に引っ張られてスクロールする動作（オーバースクロール・バウンス）を完全に無効化
+        document.addEventListener('touchmove', function(event) {
+            // 入力項目を操作している時以外のドラッグスクロールを禁止
+            if (event.target.tagName !== 'INPUT') {
+                event.preventDefault();
+            }
+        }, { passive: false });
     </script>
 
 </body>
