@@ -20,7 +20,7 @@
         
         body {
             font-family: 'M+ PLUS 1p', sans-serif;
-            background-color: #07090e;
+            background-color: #030508;
             color: #f1f5f9;
             user-select: none;
             -webkit-user-select: none;
@@ -33,88 +33,137 @@
 
         /* 画像上部の青色のぼんやりした発光シグナルを再現 */
         .blue-plasma-light {
-            background: radial-gradient(circle, rgba(0,140,255,1) 0%, rgba(0,80,200,0.8) 40%, rgba(0,40,150,0) 70%);
-            filter: blur(4px);
+            background: radial-gradient(circle, rgba(0,140,255,1) 0%, rgba(0,90,220,0.8) 35%, rgba(0,45,160,0) 75%);
+            filter: blur(2px);
         }
 
         /* 20円貸プレートのカーブを完璧に再現 */
         .rate-plate {
-            background: linear-gradient(to right, #ffffff 0%, #ffffff 85%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to right, #ffffff 0%, #ffffff 82%, rgba(255,255,255,0) 100%);
             border-top-left-radius: 9999px;
             border-bottom-left-radius: 9999px;
             border-top-right-radius: 20px;
             border-bottom-right-radius: 20px;
-            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.15), 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1), 0 3px 5px rgba(0,0,0,0.25);
         }
 
-        /* 入金残高のピンク〜マゼンタのメタリックな傾斜グラデーション枠 */
-        .pink-gradient-border {
-            background: linear-gradient(135deg, #f43f5e 0%, #ec4899 30%, #d946ef 70%, #f43f5e 100%);
-            padding: 2.5px;
-            border-radius: 8px;
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.4);
-            transition: transform 0.1s ease, filter 0.1s ease;
+        /* -----------------------------------------------------------------
+           【実機再現】入金残高プレート (白枠・銀枠ツートンの質感表現)
+        ----------------------------------------------------------------- */
+        .silver-metallic-border {
+            background: linear-gradient(135deg, 
+                #f43f5e 0%,    /* ピンク要素のアクセント外線 */
+                #ec4899 15%, 
+                #e2e8f0 16%,   /* ここからシルバーの質感境界 */
+                #cbd5e1 35%, 
+                #ffffff 50%, 
+                #94a3b8 65%, 
+                #e2e8f0 85%,
+                #ec4899 86%, 
+                #f43f5e 100%
+            );
+            padding: 3px;
+            border-radius: 12px;
+            box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            transition: transform 0.08s ease, filter 0.08s ease;
         }
-        .pink-gradient-border:active {
+        .silver-metallic-border:active {
             transform: scale(0.98);
-            filter: brightness(1.2);
+            filter: brightness(1.1);
         }
 
-        /* 持ちメダルのゴールド・イエローの傾斜グラデーション枠 */
-        .gold-gradient-border {
-            background: linear-gradient(135deg, #facc15 0%, #eab308 50%, #ca8a04 100%);
-            padding: 2.5px;
-            border-radius: 8px;
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.4);
-            transition: transform 0.1s ease, filter 0.1s ease;
-        }
-        .gold-gradient-border:active {
-            transform: scale(0.99);
-            filter: brightness(1.05);
-        }
-
-        /* 持ちメダルの内側：淡いグラデーション背景 */
-        .tokens-inner-bg {
-            background: linear-gradient(to bottom, #fffef0 0%, #fffbd4 40%, #fff7a1 100%);
+        /* 入金残高の内枠 (実機通りのなめらかな白ベース) */
+        .balance-inner-bg {
+            background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 60%, #e2e8f0 100%);
             color: #1e293b;
         }
 
-        /* 実機風のデジタル数字フォント */
+        /* -----------------------------------------------------------------
+           【実機再現】持ちメダルプレート (白枠・金枠ツートンの質感表現)
+        ----------------------------------------------------------------- */
+        .gold-metallic-border {
+            background: linear-gradient(135deg, 
+                #eab308 0%,    /* ゴールド外線 */
+                #ca8a04 15%, 
+                #ffffff 16%,   /* 白と金の複合境界による光沢ツートン */
+                #fef08a 35%, 
+                #fefec8 50%, 
+                #eab308 65%, 
+                #fef08a 85%,
+                #ca8a04 86%, 
+                #eab308 100%
+            );
+            padding: 3px;
+            border-radius: 12px;
+            box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            transition: transform 0.08s ease, filter 0.08s ease;
+        }
+        .gold-metallic-border:active {
+            transform: scale(0.98);
+            filter: brightness(1.1);
+        }
+
+        /* 持ちメダルの内枠 (白ベースに僅かにイエローが混じるグラデーション) */
+        .tokens-inner-bg {
+            background: linear-gradient(to bottom, #ffffff 0%, #fffff0 50%, #fffbeb 100%);
+            color: #0f172a;
+        }
+
+        /* 実機風のデジタル数字フォント（黒くて太いデジタル調） */
         .real-digital-num {
             font-family: 'Share Tech Mono', 'Courier New', monospace;
             font-weight: 700;
-            letter-spacing: -0.05em;
+            letter-spacing: -0.04em;
+            text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.15);
         }
 
         /* 実機ボタンの立体感 */
         .real-push-btn {
             position: relative;
             transition: all 0.05s ease;
-            box-shadow: 0 4px 0px #0f172a, 0 6px 12px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 0px #090d16, 0 6px 12px rgba(0,0,0,0.5);
         }
         .real-push-btn:active {
             transform: translateY(3px);
-            box-shadow: 0 1px 0px #0f172a, 0 2px 4px rgba(0,0,0,0.6);
+            box-shadow: 0 1px 0px #090d16, 0 2px 4px rgba(0,0,0,0.5);
         }
 
         /* メインサンド筐体の重厚なメタルベゼル */
         .sand-bezel {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            border: 3px solid #334155;
-            box-shadow: inset 0 4px 10px rgba(255,255,255,0.05), 0 20px 45px rgba(0,0,0,0.8);
+            background: linear-gradient(180deg, #1e293b 0%, #090d16 100%);
+            border: 3.5px solid #475569;
+            box-shadow: inset 0 4px 12px rgba(255,255,255,0.08), 0 25px 50px rgba(0,0,0,0.95);
         }
 
         /* レシート風デザイン */
         .receipt-paper {
-            background-color: #fcfbf7;
+            background-color: #faf9f5;
             color: #1e293b;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            background-image: radial-gradient(#e5e7eb 1px, transparent 0);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            background-image: radial-gradient(#e2e8f0 1px, transparent 0);
             background-size: 8px 8px;
         }
         .receipt-dashed {
             border-style: dashed;
-            border-color: #94a3b8;
+            border-color: #cbd5e1;
+        }
+
+        /* 入金残高と持ちメダル枠内専用の右側「>」矢印ボタンの再現 */
+        .gradient-arrow-btn {
+            background: linear-gradient(to right, #ec4899, #f43f5e);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            color: white;
+            font-size: 11px;
+            box-shadow: 0 1.5px 3px rgba(236, 72, 153, 0.35);
         }
     </style>
 </head>
@@ -126,87 +175,96 @@
         <!-- ＝＝＝ サンド筐体 メインベゼル ＝＝＝ -->
         <div class="sand-bezel rounded-2xl p-4 flex flex-col gap-4 relative overflow-hidden">
             
-            <!-- 1. 実機上部 青色ネオンライト演出エリア -->
-            <div class="relative h-28 bg-[#090b10] rounded-lg overflow-hidden border border-black flex flex-col justify-between p-2 shadow-inner">
+            <!-- 1. 実機上部 青色ネオンライト演出エリア（タップでレート変更が起動） -->
+            <div onclick="openRateModal()" class="relative h-28 bg-[#040609] rounded-lg overflow-hidden border border-black flex flex-col justify-between p-2 shadow-inner cursor-pointer hover:brightness-110 active:opacity-95 transition-all" title="タップしてレート変更">
                 
                 <!-- 輝く青のグラデーション光 -->
-                <div class="absolute inset-x-0 top-0 h-16 blue-plasma-light opacity-90"></div>
+                <div class="absolute inset-x-0 top-0 h-16 blue-plasma-light opacity-95"></div>
                 
-                <!-- 20円貸 / 50枚 ヘッダープレート -->
+                <!-- レート / 枚数 ヘッダープレート -->
                 <div class="relative z-10 flex items-center justify-between w-full">
                     
-                    <!-- 左：20円貸プレート -->
-                    <div class="rate-plate pl-4 pr-6 py-1 flex items-center gap-1.5">
-                        <span class="text-3xl font-black text-red-600 leading-none tracking-tighter" style="font-family: 'M+ PLUS Rounded 1c', sans-serif;">20</span>
-                        <div class="flex flex-col justify-center leading-none">
-                            <span class="text-[10px] text-gray-700 font-bold">円貸</span>
+                    <!-- 左：貸レートプレート（動的更新） -->
+                    <div class="rate-plate pl-4 pr-6 py-1 flex items-baseline gap-1">
+                        <span id="header-rate-val" class="text-3xl font-black text-red-600 leading-none tracking-tighter" style="font-family: 'M+ PLUS Rounded 1c', sans-serif;">20</span>
+                        <div class="flex flex-col justify-end leading-none">
+                            <span class="text-[9px] text-gray-800 font-extrabold">円貸</span>
                         </div>
                     </div>
 
-                    <!-- 右：50枚テキスト -->
+                    <!-- 右：貸出枚数テキスト（常に50枚固定） -->
                     <div class="flex items-baseline pr-2">
-                        <span class="text-3xl font-black text-red-600 tracking-tighter" style="font-family: 'M+ PLUS Rounded 1c', sans-serif;">50</span>
-                        <span class="text-xs text-red-600 font-bold ml-0.5">枚</span>
+                        <span id="header-tokens-val" class="text-3xl font-black text-red-600 tracking-tighter" style="font-family: 'M+ PLUS Rounded 1c', sans-serif;">50</span>
+                        <span class="text-xs text-red-600 font-extrabold ml-0.5">枚</span>
                     </div>
 
                 </div>
 
-                <!-- 中央：パチンコ・パチスロ台の液晶反射をイメージした近未来的ビジュアル -->
+                <!-- 中央：パチスロサンド液晶反射イメージ -->
                 <div class="relative w-full h-8 flex items-center justify-center">
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent"></div>
-                    <span id="system-status" class="text-[9px] text-cyan-400 tracking-widest font-bold uppercase opacity-80 animate-pulse">度数カード・紙幣受付中</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent"></div>
+                    <span id="system-status" class="text-[9px] text-cyan-400 tracking-widest font-bold uppercase opacity-90 animate-pulse">レート切替：上記をタップ</span>
                 </div>
 
             </div>
 
             <!-- 2. 実機液晶部（一般カード & 各ステータス） -->
-            <div class="bg-gradient-to-b from-[#f95716] to-[#d63b00] rounded-xl p-2.5 shadow-[0_8px_16px_rgba(214,59,0,0.4)] flex flex-col gap-2">
+            <div class="bg-gradient-to-b from-[#e04f16] to-[#bd3100] rounded-xl p-3 shadow-[0_8px_20px_rgba(189,49,0,0.45)] flex flex-col gap-3.5">
                 
                 <!-- 一般カードヘッダー & 鍵マーク -->
                 <div class="flex justify-between items-center px-1">
                     <span class="text-white text-sm font-extrabold tracking-wider" style="font-family: 'M+ PLUS Rounded 1c', sans-serif;">一般カード</span>
-                    <div class="bg-white/90 text-[#d63b00] rounded px-1.5 py-0.5 flex items-center justify-center shadow-inner">
+                    <div class="bg-white/95 text-[#bd3100] rounded px-1.5 py-0.5 flex items-center justify-center shadow-inner">
                         <i id="lock-state-icon" class="fa-solid fa-lock text-xs"></i>
                     </div>
                 </div>
 
-                <!-- A: 入金残高セクション (ピンクグラデーション / タップすると1万円追加) -->
-                <div class="pink-gradient-border cursor-pointer" onclick="addTenThousand()" title="入金残高">
-                    <div class="bg-black/95 rounded-md px-3 py-2 flex justify-between items-center min-h-[52px] hover:bg-black/90 active:bg-slate-950 transition-colors">
-                        <div class="flex flex-col">
-                            <span class="text-gray-400 text-xs font-bold">入金残高</span>
+                <!-- A: 【実機再現】入金残高セクション (銀枠・白背景・黒文字 / タップすると1万円追加) -->
+                <div class="silver-metallic-border cursor-pointer" onclick="addTenThousand()" title="タップして1万円入金">
+                    <div class="balance-inner-bg rounded-[9px] px-3.5 py-2.5 flex justify-between items-center min-h-[58px]">
+                        <div class="flex flex-col justify-center">
+                            <!-- 実機同様に「入金残高」文字色は黒 -->
+                            <span class="text-slate-800 text-[11px] font-black tracking-wider">入金残高</span>
                         </div>
-                        <div class="flex items-baseline text-white">
-                            <span id="balance-num" class="text-3xl font-bold real-digital-num text-white pr-1">0</span>
-                            <span class="text-xs font-bold text-gray-300">円</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-rose-500 ml-2 animate-pulse"></i>
+                        <div class="flex items-center gap-2">
+                            <!-- デジタル数字および通貨単位も実機通りの黒 -->
+                            <div class="flex items-baseline text-slate-900">
+                                <span id="balance-num" class="text-3xl font-bold real-digital-num text-[#111827] pr-1">0</span>
+                                <span class="text-xs font-black text-slate-800">円</span>
+                            </div>
+                            <span class="gradient-arrow-btn">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- B: 持ちメダルセクション (ゴールド枠 + 白基調グラデ内側 / タップすると入力ポップアップが開く) -->
-                <div class="gold-gradient-border cursor-pointer" onclick="openTokensModal()" title="持ちメダル">
-                    <div class="tokens-inner-bg rounded-md px-3 py-2 flex flex-col justify-between min-h-[64px] relative hover:brightness-105 transition-all">
+                <!-- B: 【実機再現】持ちメダルセクション (金枠・白イエロー背景・黒文字・マゼンタ23箱バッジ / タップで編集) -->
+                <div class="gold-metallic-border cursor-pointer" onclick="openTokensModal()" title="タップして持ちメダル手動設定">
+                    <div class="tokens-inner-bg rounded-[9px] px-3.5 py-2.5 flex flex-col justify-between min-h-[70px] relative">
                         
                         <!-- 持ちメダルタイトル & 右側ピンクの箱数バッジ -->
                         <div class="flex justify-between items-center w-full">
-                            <div class="flex flex-col">
-                                <span class="text-slate-800 text-xs font-black">持ちメダル</span>
-                            </div>
+                            <span class="text-slate-900 text-[11px] font-black tracking-wider">持ちメダル</span>
                             
-                            <div id="box-badge" class="bg-[#ec4899] text-white text-[11px] font-black px-2.5 py-0.5 rounded-full shadow flex items-center justify-center gap-0.5 min-w-[48px] transition-all duration-300">
+                            <!-- 実機ピンクバッジ（23箱表示デザインの再現） -->
+                            <div id="box-badge" class="bg-[#eb4095] text-white text-[11px] font-black px-3 py-0.5 rounded-full shadow flex items-center justify-center gap-0.5 min-w-[50px] border border-white/20">
                                 <span id="box-num" class="font-mono text-xs">0</span>
                                 <span class="text-[9px]">箱</span>
                             </div>
                         </div>
 
                         <!-- 持ちメダル枚数表示 -->
-                        <div class="flex justify-between items-baseline mt-1">
-                            <span class="text-[9px] text-slate-500 font-bold">20円スロット等価</span>
-                            <div class="flex items-baseline text-slate-900">
-                                <span id="tokens-num" class="text-3xl font-black real-digital-num tracking-tight pr-1 text-[#111827]">0</span>
-                                <span class="text-xs font-bold text-slate-700">枚</span>
-                                <i class="fa-solid fa-chevron-right text-xs text-amber-600 ml-2"></i>
+                        <div class="flex justify-between items-center mt-1.5">
+                            <span id="rate-tag-text" class="text-[9px] text-slate-600 font-bold">20円スロット等価</span>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-baseline text-slate-900">
+                                    <span id="tokens-num" class="text-3xl font-black real-digital-num tracking-tight pr-1 text-[#0f172a]">0</span>
+                                    <span class="text-xs font-black text-slate-800">枚</span>
+                                </div>
+                                <span class="gradient-arrow-btn" style="background: linear-gradient(to right, #f59e0b, #d97706); box-shadow: 0 1.5px 3px rgba(217, 119, 6, 0.35);">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
                             </div>
                         </div>
 
@@ -217,32 +275,71 @@
 
             <!-- 3. 操作ボタン (貸出 / 再プレイ / 返却) -->
             <div class="grid grid-cols-3 gap-2">
-                <!-- 貸出ボタン -->
+                <!-- 貸出ボタン (レートに応じて金額が可変) -->
                 <button onclick="onRentPress()" id="btn-rent" class="real-push-btn bg-gradient-to-b from-amber-400 to-amber-600 border border-amber-300 text-slate-950 font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-coins mr-0.5"></i>貸 出</span>
-                    <span class="text-[8px] opacity-80">1回 1,000円</span>
+                    <span id="rent-sub-text" class="text-[8px] opacity-90">1回 1,000円</span>
                 </button>
 
-                <!-- 再プレイボタン -->
+                <!-- 再プレイボタン (一律50枚消費) -->
                 <button onclick="onReplayPress()" id="btn-replay" class="real-push-btn bg-gradient-to-b from-emerald-500 to-emerald-700 border border-emerald-400 text-white font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-rotate-right mr-0.5"></i>再プレイ</span>
-                    <span class="text-[8px] opacity-85">1回 50枚</span>
+                    <span class="text-[8px] opacity-90">1回 50枚</span>
                 </button>
 
                 <!-- 返却ボタン -->
                 <button onclick="onReturnPress()" id="btn-return" class="real-push-btn bg-gradient-to-b from-slate-500 to-slate-700 border border-slate-400 text-white font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-right-from-bracket mr-0.5"></i>返 却</span>
-                    <span class="text-[8px] opacity-85">精算 / 返却</span>
+                    <span class="text-[8px] opacity-90">精算 / 返却</span>
                 </button>
             </div>
 
             <!-- サンド液晶メッセージウィンドウ -->
-            <div id="msg-window" class="bg-black/80 rounded-lg p-2 text-center text-[11px] text-cyan-300 border border-slate-900 min-h-[32px] flex items-center justify-center font-bold">
+            <div id="msg-window" class="bg-black/90 rounded-lg p-2 text-center text-[11px] text-cyan-300 border border-slate-800 min-h-[34px] flex items-center justify-center font-bold tracking-wider">
                 紙幣・カードをお入れください
             </div>
 
         </div>
 
+    </div>
+
+    <!-- ＝＝＝ レート変更用カスタムモーダル（ポップアップ） ＝＝＝ -->
+    <div id="rate-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex items-center justify-center p-4 rounded-2xl">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-xs rounded-xl p-4 shadow-2xl flex flex-col gap-3">
+            <div class="text-center">
+                <span class="text-sm font-bold text-red-500 tracking-wider"><i class="fa-solid fa-gears mr-1"></i>レート変更の設定</span>
+                <p class="text-[10px] text-slate-400 mt-1">※レート変更時にすべての状態はリセットされます</p>
+            </div>
+            
+            <div class="flex flex-col gap-2">
+                <span class="text-[10px] font-bold text-slate-400">プリセットから選ぶ</span>
+                <div class="grid grid-cols-2 gap-1.5">
+                    <button onclick="setRatePreset(20)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded font-bold border border-slate-700">20円スロット</button>
+                    <button onclick="setRatePreset(10)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded font-bold border border-slate-700">10円スロット</button>
+                    <button onclick="setRatePreset(5)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded font-bold border border-slate-700">5円スロット</button>
+                    <button onclick="setRatePreset(2)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded font-bold border border-slate-700">2円スロット</button>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 my-1"></div>
+
+            <div class="flex flex-col gap-1.5">
+                <span class="text-[10px] font-bold text-slate-400">自由に1枚のレートを指定する</span>
+                <div class="relative">
+                    <input type="number" id="modal-custom-rate" min="1" max="1000" placeholder="20" class="w-full bg-black text-red-500 text-center font-mono text-lg py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-red-500 font-bold">
+                    <span class="absolute right-3 top-2 text-xs font-bold text-slate-500">円 / 枚</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <button onclick="closeRateModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold py-2 rounded-lg">
+                    閉じる
+                </button>
+                <button onclick="submitRateChange()" class="bg-gradient-to-b from-red-500 to-red-700 text-white text-xs font-black py-2 rounded-lg shadow">
+                    設定 ＆ リセット
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- ＝＝＝ 持ちメダル入力カスタムモーダル（ポップアップ） ＝＝＝ -->
@@ -321,7 +418,7 @@
                     <span id="receipt-diff-tokens">±0 枚</span>
                 </div>
                 <div class="flex justify-between font-bold text-slate-800 mt-1">
-                    <span>推定差額(等価):</span>
+                    <span id="receipt-diff-money-label">推定差額(等価):</span>
                     <span id="receipt-diff-money">±0 円</span>
                 </div>
             </div>
@@ -432,7 +529,7 @@
 
             if (type === 'click') {
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(1200, now);
+                osc.frequency.setValueAtTime(1100, now);
                 gain.gain.setValueAtTime(0.06, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
                 osc.start(now);
@@ -440,8 +537,8 @@
             } 
             else if (type === 'insert') {
                 osc.type = 'triangle';
-                osc.frequency.setValueAtTime(550, now);
-                osc.frequency.exponentialRampToValueAtTime(1100, now + 0.15);
+                osc.frequency.setValueAtTime(520, now);
+                osc.frequency.exponentialRampToValueAtTime(1150, now + 0.16);
                 gain.gain.setValueAtTime(0.08, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
                 osc.start(now);
@@ -449,8 +546,8 @@
             }
             else if (type === 'coin') {
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(1400, now);
-                osc.frequency.exponentialRampToValueAtTime(2000, now + 0.12);
+                osc.frequency.setValueAtTime(1350, now);
+                osc.frequency.exponentialRampToValueAtTime(2100, now + 0.13);
                 gain.gain.setValueAtTime(0.1, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
                 osc.start(now);
@@ -458,8 +555,8 @@
             }
             else if (type === 'replay') {
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, now);
-                osc.frequency.exponentialRampToValueAtTime(1600, now + 0.1);
+                osc.frequency.setValueAtTime(750, now);
+                osc.frequency.exponentialRampToValueAtTime(1550, now + 0.1);
                 gain.gain.setValueAtTime(0.08, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
                 osc.start(now);
@@ -467,7 +564,7 @@
             }
             else if (type === 'error') {
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(200, now);
                 gain.gain.setValueAtTime(0.12, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
                 osc.start(now);
@@ -483,7 +580,8 @@
             hasCard: false,
             balance: 0,
             tokens: 0,
-            totalInvest: 0
+            totalInvest: 0,
+            rate: 20 // 1枚あたりの単価 (デフォルト20円)
         };
 
         // 精算時に一時保管するデータ
@@ -491,25 +589,31 @@
             hasCard: false,
             balance: 0,
             tokens: 0,
-            totalInvest: 0
+            totalInvest: 0,
+            rate: 20
         };
 
-        const RENT_PRICE = 1000;
-        const REPLAY_TOKENS = 50;
+        const LEASE_TOKENS_PER_TIME = 50; // 1回の貸出枚数は常に一律50枚
 
         // DOM
+        const headerRateVal = document.getElementById('header-rate-val');
+        const headerTokensVal = document.getElementById('header-tokens-val');
         const balanceNum = document.getElementById('balance-num');
         const tokensNum = document.getElementById('tokens-num');
         const boxNum = document.getElementById('box-num');
         const lockStateIcon = document.getElementById('lock-state-icon');
         const msgWindow = document.getElementById('msg-window');
         const systemStatus = document.getElementById('system-status');
+        const rateTagText = document.getElementById('rate-tag-text');
+        const rentSubText = document.getElementById('rent-sub-text');
         
         // モーダル関連DOM
+        const rateModal = document.getElementById('rate-modal');
+        const modalCustomRate = document.getElementById('modal-custom-rate');
         const inputModal = document.getElementById('input-modal');
         const modalTokensInput = document.getElementById('modal-tokens-input');
         
-        // レーシート結果モーダル関連DOM
+        // レシート結果モーダル関連DOM
         const resultModal = document.getElementById('result-modal');
         const receiptDate = document.getElementById('receipt-date');
         const receiptTotalInvest = document.getElementById('receipt-total-invest');
@@ -519,12 +623,24 @@
         const receiptBoxes = document.getElementById('receipt-boxes');
         const receiptDiffTokens = document.getElementById('receipt-diff-tokens');
         const receiptDiffMoney = document.getElementById('receipt-diff-money');
+        const receiptDiffMoneyLabel = document.getElementById('receipt-diff-money-label');
 
-        // 画面の更新
+        // レートに応じて1回の貸出額を計算
+        function getRentCost() {
+            return LEASE_TOKENS_PER_TIME * state.rate;
+        }
+
+        // 画面表示全体の同期・リフレッシュ
         function refreshDisplay() {
+            // ヘッダー部レート情報
+            headerRateVal.textContent = state.rate;
+            headerTokensVal.textContent = LEASE_TOKENS_PER_TIME;
+
+            // 各種金額の表示
             balanceNum.textContent = state.balance.toLocaleString();
             tokensNum.textContent = state.tokens.toLocaleString();
 
+            // ドル箱の計算 (1箱あたりおよそ713.565枚換算)
             let calculatedBoxes = 0;
             if (state.tokens > 0) {
                 calculatedBoxes = Math.floor(state.tokens / 713.565);
@@ -534,6 +650,14 @@
             }
             boxNum.textContent = calculatedBoxes;
 
+            // 持ちメダル欄のレート名称を更新
+            rateTagText.textContent = `${state.rate}円スロット等価`;
+
+            // 貸出ボタンの消費金額サブテキストをレートと同期
+            const rentCost = getRentCost();
+            rentSubText.textContent = `1回 ${rentCost.toLocaleString()}円`;
+
+            // カード有無シグナルの表示切替
             if (state.hasCard) {
                 lockStateIcon.className = "fa-solid fa-lock-open text-emerald-500";
                 systemStatus.textContent = "CARD INSERTED - READY";
@@ -545,48 +669,51 @@
             }
         }
 
-        // 簡易通知メッセージ
+        // 簡易液晶メッセージ出力
         function logMessage(text, isWarning = false) {
             msgWindow.textContent = text;
             if (isWarning) {
-                msgWindow.className = "bg-rose-950/80 rounded-lg p-2 text-center text-[11px] text-rose-400 border border-rose-900 min-h-[32px] flex items-center justify-center font-bold";
+                msgWindow.className = "bg-rose-950/90 rounded-lg p-2 text-center text-[11px] text-rose-400 border border-rose-900 min-h-[34px] flex items-center justify-center font-bold";
             } else {
-                msgWindow.className = "bg-black/80 rounded-lg p-2 text-center text-[11px] text-cyan-300 border border-slate-900 min-h-[32px] flex items-center justify-center font-bold";
+                msgWindow.className = "bg-black/90 rounded-lg p-2 text-center text-[11px] text-cyan-300 border border-slate-800 min-h-[34px] flex items-center justify-center font-bold";
             }
         }
 
-        // 数値変化時のフラッシュアニメーション
+        // 数値変動時フラッシュ演出
         function runFlashEffect(targetId) {
             const el = document.getElementById(targetId);
             if (!el) return;
-            el.classList.add('scale-105', 'text-yellow-400');
+            el.classList.add('scale-105', 'text-yellow-600');
             setTimeout(() => {
-                el.classList.remove('scale-105', 'text-yellow-400');
+                el.classList.remove('scale-105', 'text-yellow-600');
             }, 100);
         }
 
-        // 状態保存呼び出し用
+        // クラウドセーブ
         function saveState() {
             if (window.saveToCloud) {
                 window.saveToCloud(state);
             }
         }
 
-        // Firebaseがロードした状態を適用する窓口
+        // クラウドからのロードデータ適用
         window.applyLoadedState = function(loadedState) {
             state.hasCard = loadedState.hasCard ?? false;
             state.balance = loadedState.balance ?? 0;
             state.tokens = loadedState.tokens ?? 0;
             state.totalInvest = loadedState.totalInvest ?? 0;
+            state.rate = loadedState.rate ?? 20;
             refreshDisplay();
             logMessage("紙幣・カードをお入れください");
         };
 
+        // デフォルト初期化
         window.initDefaultState = function() {
             state.hasCard = false;
             state.balance = 0;
             state.tokens = 0;
             state.totalInvest = 0;
+            state.rate = 20;
             refreshDisplay();
             logMessage("紙幣・カードをお入れください");
         };
@@ -603,23 +730,23 @@
             saveState();
         }
 
-        // 2. 貸出 (1,000円単位で減少)
+        // 2. 貸出 (1回50枚＝レートに応じた金額を減算)
         function onRentPress() {
-            if (!state.hasCard || state.balance < RENT_PRICE) {
+            const rentCost = getRentCost();
+            if (!state.hasCard || state.balance < rentCost) {
                 playSoundEffect('error');
-                logMessage("残高がありません", true);
+                logMessage("残高が不足しています", true);
                 return;
             }
 
             playSoundEffect('coin');
-            state.balance -= RENT_PRICE;
+            state.balance -= rentCost;
 
             logMessage("度数精算中");
             refreshDisplay();
             runFlashEffect('balance-num');
             saveState();
             
-            // 2秒後に元の待機メッセージに戻す
             setTimeout(() => {
                 if (state.hasCard) {
                     logMessage("カード残高をお確かめください");
@@ -627,16 +754,16 @@
             }, 2000);
         }
 
-        // 3. 再プレイ (持ちメダルから50枚減少)
+        // 3. 再プレイ (持ちメダルから一律50枚減少)
         function onReplayPress() {
-            if (state.tokens < REPLAY_TOKENS) {
+            if (state.tokens < LEASE_TOKENS_PER_TIME) {
                 playSoundEffect('error');
                 logMessage("持ちメダルが不足しています", true);
                 return;
             }
 
             playSoundEffect('replay');
-            state.tokens -= REPLAY_TOKENS;
+            state.tokens -= LEASE_TOKENS_PER_TIME;
 
             logMessage("再プレイ受付");
             refreshDisplay();
@@ -650,7 +777,7 @@
             }, 2000);
         }
 
-        // 4. カード返却（精算確認）
+        // 4. カード返却（精算確認レシート表示）
         function onReturnPress() {
             if (!state.hasCard) {
                 playSoundEffect('error');
@@ -660,11 +787,12 @@
 
             playSoundEffect('insert');
 
-            // 精算直前の実機データを一時保管
+            // 一時バックアップ
             backupState.hasCard = state.hasCard;
             backupState.balance = state.balance;
             backupState.tokens = state.tokens;
             backupState.totalInvest = state.totalInvest;
+            backupState.rate = state.rate;
             
             const now = new Date();
             const dateStr = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -683,15 +811,18 @@
                 }
             }
 
-            const earnedMoney = tokensVal * 20;
+            // 現在設定されている貸しレート基準で収支計算を行う
+            const earnedMoney = tokensVal * state.rate;
             const diffMoney = earnedMoney - netInvestVal;
-            const diffTokens = tokensVal - (netInvestVal / 20);
+            const diffTokens = tokensVal - (netInvestVal / state.rate);
 
             receiptTotalInvest.textContent = `${totalInvestVal.toLocaleString()} 円`;
             receiptReturnedBal.textContent = `${returnedBalVal.toLocaleString()} 円`;
             receiptNetInvest.textContent = `${netInvestVal.toLocaleString()} 円`;
             receiptTokens.textContent = tokensVal.toLocaleString();
             receiptBoxes.textContent = `${calculatedBoxes} 箱`;
+
+            receiptDiffMoneyLabel.textContent = `推定差額(${state.rate}円):`;
 
             if (diffTokens >= 0) {
                 receiptDiffTokens.textContent = `+${Math.floor(diffTokens).toLocaleString()} 枚`;
@@ -709,59 +840,95 @@
                 receiptDiffMoney.className = "font-bold text-rose-600";
             }
 
-            // 見た目上、排出したように見せる
+            // 実機を一次的に空にする演出
             state.hasCard = false;
             state.balance = 0;
+            state.tokens = 0;
+            state.totalInvest = 0;
             refreshDisplay();
 
             resultModal.classList.remove('hidden');
         }
 
-        // 「遊技を続ける」が押されたときの復帰処理 (確実な引き継ぎ)
+        // 精算リザルトから「遊技を続ける（残高復元）」
         function closeResultModal() {
-            playSoundEffect('insert');
-            
-            // バックアップから完全に復元
+            playSoundEffect('click');
+            // バックアップから復元
             state.hasCard = backupState.hasCard;
             state.balance = backupState.balance;
             state.tokens = backupState.tokens;
             state.totalInvest = backupState.totalInvest;
-
+            state.rate = backupState.rate;
             refreshDisplay();
             resultModal.classList.add('hidden');
-            logMessage("度数カード受付中");
+            logMessage("ICカードが再挿入されました");
             saveState();
         }
 
-        // 「完全にリセットして戻る」が押されたときのみ完全消去
+        // 精算リザルトから「完全にリセット」
         function resetAllState() {
             playSoundEffect('click');
-            
             state.hasCard = false;
             state.balance = 0;
             state.tokens = 0;
             state.totalInvest = 0;
-            
-            backupState.hasCard = false;
-            backupState.balance = 0;
-            backupState.tokens = 0;
-            backupState.totalInvest = 0;
-
             refreshDisplay();
             resultModal.classList.add('hidden');
-            logMessage("紙幣・カードをお入れください");
+            logMessage("精算を完了しました");
             saveState();
         }
 
-        // --- 持ちメダル入力モーダル関連ロジック ---
+        // -----------------------------------------------------------------
+        // 【レート変更用モーダル処理】
+        // -----------------------------------------------------------------
+        function openRateModal() {
+            playSoundEffect('click');
+            modalCustomRate.value = state.rate;
+            rateModal.classList.remove('hidden');
+        }
+
+        function closeRateModal() {
+            playSoundEffect('click');
+            rateModal.classList.add('hidden');
+        }
+
+        function setRatePreset(val) {
+            playSoundEffect('click');
+            modalCustomRate.value = val;
+        }
+
+        // レート変更の適用およびデータの強制全リセット
+        function submitRateChange() {
+            const targetRate = parseFloat(modalCustomRate.value);
+            if (isNaN(targetRate) || targetRate <= 0) {
+                playSoundEffect('error');
+                return;
+            }
+
+            playSoundEffect('insert');
+            
+            // レート変更の実行
+            state.rate = targetRate;
+            
+            // ★ご要望：レート変更時、所持金や持ちメダルなどすべてのデータを完全にリセット
+            state.hasCard = false;
+            state.balance = 0;
+            state.tokens = 0;
+            state.totalInvest = 0;
+
+            refreshDisplay();
+            rateModal.classList.add('hidden');
+            logMessage(`${state.rate}円スロットへ変更（データリセット）`);
+            saveState();
+        }
+
+        // -----------------------------------------------------------------
+        // 【持ちメダル手動入力用モーダル処理】
+        // -----------------------------------------------------------------
         function openTokensModal() {
             playSoundEffect('click');
             modalTokensInput.value = state.tokens;
             inputModal.classList.remove('hidden');
-            setTimeout(() => {
-                modalTokensInput.focus();
-                modalTokensInput.select();
-            }, 50);
         }
 
         function closeTokensModal() {
@@ -769,70 +936,29 @@
             inputModal.classList.add('hidden');
         }
 
-        function setModalQuickValue(value) {
+        function setModalQuickValue(val) {
             playSoundEffect('click');
-            modalTokensInput.value = value;
+            modalTokensInput.value = val;
         }
 
         function submitTokensModal() {
-            let value = parseInt(modalTokensInput.value, 10);
-            if (isNaN(value) || value < 0) {
-                value = 0;
+            let val = parseInt(modalTokensInput.value, 10);
+            if (isNaN(val) || val < 0) {
+                val = 0;
             }
-            
-            playSoundEffect('insert');
-            state.tokens = value;
-            logMessage("計数データ反映完了");
-            
+            if (val > 999999) {
+                val = 999999;
+            }
+
+            playSoundEffect('click');
+            state.tokens = val;
             refreshDisplay();
             runFlashEffect('tokens-num');
-            
             inputModal.classList.add('hidden');
+            logMessage("持ちメダルを手動設定しました");
             saveState();
-            
-            setTimeout(() => {
-                logMessage("紙幣・カードをお入れください");
-            }, 2000);
         }
-
-        // --- Screen Wake Lock API (画面消灯防止) の実装 ---
-        let wakeLock = null;
-        async function requestWakeLock() {
-            try {
-                if ('wakeLock' in navigator) {
-                    wakeLock = await navigator.wakeLock.request('screen');
-                    console.log('Screen Wake Lock is active.');
-                }
-            } catch (err) {
-                console.warn(`Wake Lock request failed: ${err.message}`);
-            }
-        }
-
-        // ページがアクティブになったときにWake Lockを再要求
-        document.addEventListener('visibilitychange', async () => {
-            if (wakeLock !== null && document.visibilityState === 'visible') {
-                await requestWakeLock();
-            }
-        });
-
-        // ユーザーが画面に触れたタイミングでスリープ防止ロックを確実にトリガー
-        window.addEventListener('click', () => {
-            if (!wakeLock) {
-                requestWakeLock();
-            }
-        });
-        window.addEventListener('touchstart', () => {
-            if (!wakeLock) {
-                requestWakeLock();
-            }
-        });
-
-        // 初期ロード時
-        window.addEventListener('load', () => {
-            state.tokens = 0;
-            refreshDisplay();
-            requestWakeLock();
-        });
     </script>
+
 </body>
 </html>
