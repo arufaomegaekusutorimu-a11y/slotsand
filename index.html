@@ -30,7 +30,7 @@
             padding-top: max(1rem, env(safe-area-inset-top));
             padding-bottom: max(1rem, env(safe-area-inset-bottom));
 
-            /* 画面固定・オーバースクロール（バウンス）防止・ズーム防止の追加 */
+            /* 画面固定・オーバースクロール（バウンス）防止・ズーム防止 of PWA */
             position: fixed;
             top: 0;
             left: 0;
@@ -240,8 +240,8 @@
                     </div>
                 </div>
 
-                <!-- A: 入金残高セクション (銀枠・白背景・黒文字 / タップすると1万円追加) -->
-                <div class="silver-metallic-border cursor-pointer" onclick="addTenThousand()" title="タップして1万円入金">
+                <!-- A: 入金残高セクション (銀枠・白背景・黒文字 / 設定された金額を追加。サブテキスト削除) -->
+                <div id="balance-card" class="silver-metallic-border cursor-pointer" onclick="addTenThousand()" title="タップして入金">
                     <div class="balance-inner-bg rounded-[9px] px-3.5 py-2.5 flex justify-between items-center min-h-[58px]">
                         <div class="flex flex-col justify-center">
                             <span class="text-slate-800 text-[11px] font-black tracking-wider">入金残高</span>
@@ -258,7 +258,7 @@
                     </div>
                 </div>
 
-                <!-- B: 持ちメダルセクション (金枠・白イエロー背景・黒文字・マゼンタ23箱バッジ / タップで編集) -->
+                <!-- B: 持ちメダルセクション (金枠・白イエロー背景・黒文字・マゼンタ23箱バッジ / レート等価テキスト削除) -->
                 <div class="gold-metallic-border cursor-pointer" onclick="openTokensModal()" title="タップして持ちメダル手動設定">
                     <div class="tokens-inner-bg rounded-[9px] px-3.5 py-2.5 flex flex-col justify-between min-h-[70px] relative">
                         
@@ -273,9 +273,8 @@
                             </div>
                         </div>
 
-                        <!-- 持ちメダル枚数表示 -->
-                        <div class="flex justify-between items-center mt-1.5">
-                            <span id="rate-tag-text" class="text-[9px] text-slate-600 font-bold">20円スロット等価</span>
+                        <!-- 持ちメダル枚数表示 (右寄せに変更) -->
+                        <div class="flex justify-end items-center mt-1.5">
                             <div class="flex items-center gap-2">
                                 <div class="flex items-baseline text-slate-900">
                                     <span id="tokens-num" class="text-3xl font-black real-digital-num tracking-tight pr-1 text-[#0f172a]">0</span>
@@ -292,24 +291,21 @@
 
             </div>
 
-            <!-- 3. 操作ボタン (貸出 / 再プレイ / 返却) -->
+            <!-- 3. 操作ボタン (貸出 / 再プレイ / 返却、サブテキストを削除して中央揃えに最適化) -->
             <div class="grid grid-cols-3 gap-2">
                 <!-- 貸出ボタン -->
-                <button onclick="onRentPress()" id="btn-rent" class="real-push-btn bg-gradient-to-b from-amber-400 to-amber-600 border border-amber-300 text-slate-950 font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
+                <button onclick="onRentPress()" id="btn-rent" class="real-push-btn bg-gradient-to-b from-amber-400 to-amber-600 border border-amber-300 text-slate-950 font-black py-4 rounded-xl flex items-center justify-center">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-coins mr-0.5"></i>貸 出</span>
-                    <span id="rent-sub-text" class="text-[8px] opacity-90">1回 1,000円</span>
                 </button>
 
                 <!-- 再プレイボタン -->
-                <button onclick="onReplayPress()" id="btn-replay" class="real-push-btn bg-gradient-to-b from-emerald-500 to-emerald-700 border border-emerald-400 text-white font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
+                <button onclick="onReplayPress()" id="btn-replay" class="real-push-btn bg-gradient-to-b from-emerald-500 to-emerald-700 border border-emerald-400 text-white font-black py-4 rounded-xl flex items-center justify-center">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-rotate-right mr-0.5"></i>再プレイ</span>
-                    <span class="text-[8px] opacity-90">1回 50枚</span>
                 </button>
 
                 <!-- 返却ボタン -->
-                <button onclick="onReturnPress()" id="btn-return" class="real-push-btn bg-gradient-to-b from-slate-500 to-slate-700 border border-slate-400 text-white font-black py-4 rounded-xl flex flex-col items-center justify-center gap-0.5">
+                <button onclick="onReturnPress()" id="btn-return" class="real-push-btn bg-gradient-to-b from-slate-500 to-slate-700 border border-slate-400 text-white font-black py-4 rounded-xl flex items-center justify-center">
                     <span class="text-sm tracking-widest"><i class="fa-solid fa-right-from-bracket mr-0.5"></i>返 却</span>
-                    <span class="text-[8px] opacity-90">精算 / 返却</span>
                 </button>
             </div>
 
@@ -322,16 +318,17 @@
 
     </div>
 
-    <!-- ＝＝＝ レート変更用カスタムモーダル ＝＝＝ -->
+    <!-- ＝＝＝ レート・投入額変更用カスタムモーダル ＝＝＝ -->
     <div id="rate-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex items-center justify-center p-4 rounded-2xl">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-xs rounded-xl p-4 shadow-2xl flex flex-col gap-3">
             <div class="text-center">
-                <span class="text-sm font-bold text-red-500 tracking-wider"><i class="fa-solid fa-gears mr-1"></i>レート変更の設定</span>
-                <p class="text-[10px] text-slate-400 mt-1">※レート変更時にすべての状態はリセットされます</p>
+                <span class="text-sm font-bold text-red-500 tracking-wider"><i class="fa-solid fa-gears mr-1"></i>設定の変更</span>
+                <p class="text-[10px] text-slate-400 mt-1">※設定変更時にすべての遊技状態はリセットされます</p>
             </div>
             
+            <!-- レート設定 -->
             <div class="flex flex-col gap-2">
-                <span class="text-[10px] font-bold text-slate-400">プリセットから選ぶ</span>
+                <span class="text-[10px] font-bold text-slate-400">スロットレートの選択</span>
                 <div class="grid grid-cols-2 gap-1.5">
                     <button onclick="setRatePreset(20)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded font-bold border border-slate-700">20円スロット</button>
                     <button onclick="setRatePreset(10)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs py-2 rounded font-bold border border-slate-700">10円スロット</button>
@@ -340,13 +337,26 @@
                 </div>
             </div>
 
+            <div class="relative">
+                <input type="number" id="modal-custom-rate" min="1" max="1000" placeholder="20" class="w-full bg-black text-red-500 text-center font-mono text-base py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-red-500 font-bold">
+                <span class="absolute right-3 top-1.5 text-xs font-bold text-slate-500">円 / 枚</span>
+            </div>
+
             <div class="border-t border-slate-800 my-1"></div>
 
+            <!-- 投入金額設定 -->
             <div class="flex flex-col gap-1.5">
-                <span class="text-[10px] font-bold text-slate-400">自由に1枚のレートを指定する</span>
-                <div class="relative">
-                    <input type="number" id="modal-custom-rate" min="1" max="1000" placeholder="20" class="w-full bg-black text-red-500 text-center font-mono text-lg py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-red-500 font-bold">
-                    <span class="absolute right-3 top-2 text-xs font-bold text-slate-500">円 / 枚</span>
+                <span class="text-[10px] font-bold text-slate-400">紙幣投入額の設定 (タップチャージ額)</span>
+                <div class="grid grid-cols-3 gap-1.5">
+                    <button type="button" onclick="setModalInsertAmount(10000)" id="insert-amt-10000" class="text-[11px] py-2 rounded font-bold border border-slate-700 bg-slate-800 text-slate-300">
+                        1万円
+                    </button>
+                    <button type="button" onclick="setModalInsertAmount(5000)" id="insert-amt-5000" class="text-[11px] py-2 rounded font-bold border border-slate-700 bg-slate-800 text-slate-300">
+                        5千円
+                    </button>
+                    <button type="button" onclick="setModalInsertAmount(1000)" id="insert-amt-1000" class="text-[11px] py-2 rounded font-bold border border-slate-700 bg-slate-800 text-slate-300">
+                        1千円
+                    </button>
                 </div>
             </div>
 
@@ -361,7 +371,7 @@
         </div>
     </div>
 
-    <!-- ＝＝＝ 持ちメダル入力カスタムモーダル ＝＝＝ -->
+    <!-- ＝＝＝ 持ちメダル入力カスタムモーダル (クイック選択ボタンを削除) ＝＝＝ -->
     <div id="input-modal" class="hidden absolute inset-0 bg-black/90 z-50 flex items-center justify-center p-4 rounded-2xl">
         <div class="bg-slate-900 border border-slate-700 w-full max-w-xs rounded-xl p-4 shadow-2xl flex flex-col gap-3">
             <div class="text-center">
@@ -374,11 +384,7 @@
                 <span class="absolute right-3 top-3.5 text-xs font-bold text-slate-500">枚</span>
             </div>
 
-            <div class="grid grid-cols-3 gap-1.5 text-center">
-                <button onclick="setModalQuickValue(0)" class="bg-slate-800 hover:bg-slate-700 text-white text-[10px] py-1 rounded font-bold">0枚</button>
-                <button onclick="setModalQuickValue(1000)" class="bg-slate-800 hover:bg-slate-700 text-white text-[10px] py-1 rounded font-bold">1,000枚</button>
-                <button onclick="setModalQuickValue(16412)" class="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 text-[10px] py-1 rounded font-black">16,412枚</button>
-            </div>
+            <!-- クイック設定用ボタングループを削除したことで、スマートな入力フォームへ最適化 -->
 
             <div class="grid grid-cols-2 gap-2 mt-1">
                 <button onclick="closeTokensModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold py-2 rounded-lg">
@@ -430,9 +436,10 @@
                         <span class="text-[10px] ml-0.5">枚</span>
                     </div>
                 </div>
+                <!-- ドル箱の代わりにメダル換算額 -->
                 <div class="flex justify-between">
-                    <span>■ ドル箱換算</span>
-                    <span class="font-bold text-slate-950" id="receipt-boxes">0 箱</span>
+                    <span>■ メダル換算額</span>
+                    <span class="font-bold text-slate-950" id="receipt-tokens-money">0 円</span>
                 </div>
             </div>
 
@@ -619,7 +626,8 @@
             balance: 0,
             tokens: 0,
             totalInvest: 0,
-            rate: 20 // デフォルト20円
+            rate: 20, // デフォルト20円
+            insertAmount: 10000 // デフォルトの投入金額 (1万円)
         };
 
         // 精算時に一時保管するデータ
@@ -628,10 +636,14 @@
             balance: 0,
             tokens: 0,
             totalInvest: 0,
-            rate: 20
+            rate: 20,
+            insertAmount: 10000
         };
 
         const LEASE_TOKENS_PER_TIME = 50; // 1回の貸出枚数は一律50枚
+
+        // 投入金額変更用の一時保存変数
+        let tempInsertAmount = 10000;
 
         // DOM
         const headerRateVal = document.getElementById('header-rate-val');
@@ -642,9 +654,10 @@
         const lockStateIcon = document.getElementById('lock-state-icon');
         const msgWindow = document.getElementById('msg-window');
         const systemStatus = document.getElementById('system-status');
-        const rateTagText = document.getElementById('rate-tag-text');
-        const rentSubText = document.getElementById('rent-sub-text');
         
+        // メインチャージエリア連動用
+        const balanceCard = document.getElementById('balance-card');
+
         // モーダル関連DOM
         const rateModal = document.getElementById('rate-modal');
         const modalCustomRate = document.getElementById('modal-custom-rate');
@@ -659,7 +672,7 @@
         const receiptNetInvest = document.getElementById('receipt-net-invest');
         const receiptInvestTokens = document.getElementById('receipt-invest-tokens'); // 投資枚数のDOM
         const receiptTokens = document.getElementById('receipt-tokens');
-        const receiptBoxes = document.getElementById('receipt-boxes');
+        const receiptTokensMoney = document.getElementById('receipt-tokens-money'); // メダル換算額のDOM
         const receiptDiffTokens = document.getElementById('receipt-diff-tokens');
         const receiptDiffMoney = document.getElementById('receipt-diff-money');
         const receiptDiffMoneyLabel = document.getElementById('receipt-diff-money-label');
@@ -689,12 +702,8 @@
             }
             boxNum.textContent = calculatedBoxes;
 
-            // 持ちメダル欄のレート名称を更新
-            rateTagText.textContent = `${state.rate}円スロット等価`;
-
-            // 貸出ボタンの消費金額サブテキストをレートと同期
-            const rentCost = getRentCost();
-            rentSubText.textContent = `1回 ${rentCost.toLocaleString()}円`;
+            // 紙幣チャージ用のホバーツールチップを更新（画面上のテキストは非表示化）
+            balanceCard.setAttribute('title', `タップして${state.insertAmount.toLocaleString()}円入金`);
 
             // カード有無シグナルの表示切替
             if (state.hasCard) {
@@ -742,6 +751,7 @@
             state.tokens = loadedState.tokens ?? 0;
             state.totalInvest = loadedState.totalInvest ?? 0;
             state.rate = loadedState.rate ?? 20;
+            state.insertAmount = loadedState.insertAmount ?? 10000;
             refreshDisplay();
             logMessage("データをクラウドから復元しました");
         };
@@ -752,23 +762,24 @@
             state.tokens = 0;
             state.totalInvest = 0;
             state.rate = 20;
+            state.insertAmount = 10000;
             refreshDisplay();
             logMessage("紙幣・カードをお入れください");
         };
 
-        // 1. 入金残高枠タップで1万円チャージ
+        // 1. 入金残高枠タップでチャージ (設定された紙幣投入額を適用)
         function addTenThousand() {
             playSoundEffect('insert');
             state.hasCard = true;
-            state.balance += 10000;
-            state.totalInvest += 10000;
+            state.balance += state.insertAmount;
+            state.totalInvest += state.insertAmount;
             logMessage("紙幣を受付しました");
             refreshDisplay();
             runFlashEffect('balance-num');
             saveState();
         }
 
-        // 2. 貸出 (1回50枚＝レートに応じた金額を減算。※持ちメダルは増えないよう変更)
+        // 2. 貸出 (1回50枚＝レートに応じた金額を減算。※持ちメダルは増えない)
         function onRentPress() {
             const rentCost = getRentCost();
             if (!state.hasCard || state.balance < rentCost) {
@@ -779,8 +790,6 @@
 
             playSoundEffect('coin');
             state.balance -= rentCost;
-            
-            // 修正箇所：貸出ボタンを押してもstate.tokens（持ちメダル）は増やさない
 
             logMessage("度数精算中");
             refreshDisplay();
@@ -833,6 +842,7 @@
             backupState.tokens = state.tokens;
             backupState.totalInvest = state.totalInvest;
             backupState.rate = state.rate;
+            backupState.insertAmount = state.insertAmount;
             
             const now = new Date();
             const dateStr = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -846,13 +856,8 @@
             // 実質投資枚数の計算 (実質投資額 / 現在のレート)
             const investTokensVal = state.rate > 0 ? Math.floor(netInvestVal / state.rate) : 0;
 
-            let calculatedBoxes = 0;
-            if (tokensVal > 0) {
-                calculatedBoxes = Math.floor(tokensVal / 713.565);
-                if (calculatedBoxes === 0 && tokensVal > 0) {
-                    calculatedBoxes = 1;
-                }
-            }
+            // 持ちメダル数に基づく金額計算 (持ちメダル数 × 現在のレート)
+            const finalTokensMoney = tokensVal * state.rate;
 
             // 現在設定されている貸しレート基準で収支計算を行う
             const earnedMoney = tokensVal * state.rate;
@@ -865,7 +870,7 @@
             receiptInvestTokens.textContent = `${investTokensVal.toLocaleString()} 枚`; // 投資枚数の更新表示
             
             receiptTokens.textContent = tokensVal.toLocaleString();
-            receiptBoxes.textContent = `${calculatedBoxes} 箱`;
+            receiptTokensMoney.textContent = `${finalTokensMoney.toLocaleString()} 円`; // 持ちメダル金額の表示
 
             receiptDiffMoneyLabel.textContent = `推定差額(${state.rate}円):`;
 
@@ -904,6 +909,7 @@
             state.tokens = backupState.tokens;
             state.totalInvest = backupState.totalInvest;
             state.rate = backupState.rate;
+            state.insertAmount = backupState.insertAmount;
             refreshDisplay();
             resultModal.classList.add('hidden');
             logMessage("ICカードが再挿入されました");
@@ -924,11 +930,13 @@
         }
 
         // -----------------------------------------------------------------
-        // 【レート変更用モーダル処理】
+        // 【設定（レート・投入金額）変更モーダル処理】
         // -----------------------------------------------------------------
         function openRateModal() {
             playSoundEffect('click');
             modalCustomRate.value = state.rate;
+            tempInsertAmount = state.insertAmount; // 現在の投入金額を一時保存にコピー
+            updateModalInsertAmountUI(); // UIボタンを現在の選択状態にする
             rateModal.classList.remove('hidden');
         }
 
@@ -937,12 +945,41 @@
             rateModal.classList.add('hidden');
         }
 
+        // レートのプリセット設定
         function setRatePreset(val) {
             playSoundEffect('click');
             modalCustomRate.value = val;
         }
 
-        // レート変更の適用およびデータの強制全リセット
+        // 紙幣投入額の一時設定を切り替えてUIクラスを更新する
+        function setModalInsertAmount(val) {
+            playSoundEffect('click');
+            tempInsertAmount = val;
+            updateModalInsertAmountUI();
+        }
+
+        // 紙幣投入設定用ボタンのトグル色制御
+        function updateModalInsertAmountUI() {
+            const btn10000 = document.getElementById('insert-amt-10000');
+            const btn5000 = document.getElementById('insert-amt-5000');
+            const btn1000 = document.getElementById('insert-amt-1000');
+
+            // 全て一度デフォルトの非アクティブスタイルに設定
+            [btn10000, btn5000, btn1000].forEach(btn => {
+                btn.className = "text-[11px] py-2 rounded font-extrabold border border-slate-700 bg-slate-800 hover:bg-slate-750 text-slate-300 transition-colors shadow-inner cursor-pointer";
+            });
+
+            // アクティブな金額ボタンを鮮やかにハイライト
+            if (tempInsertAmount === 10000) {
+                btn10000.className = "text-[11px] py-2 rounded font-extrabold border border-red-500 bg-gradient-to-b from-red-500 to-red-600 text-white transition-all shadow-[0_0_10px_rgba(239,68,68,0.5)] cursor-pointer";
+            } else if (tempInsertAmount === 5000) {
+                btn5000.className = "text-[11px] py-2 rounded font-extrabold border border-red-500 bg-gradient-to-b from-red-500 to-red-600 text-white transition-all shadow-[0_0_10px_rgba(239,68,68,0.5)] cursor-pointer";
+            } else if (tempInsertAmount === 1000) {
+                btn1000.className = "text-[11px] py-2 rounded font-extrabold border border-red-500 bg-gradient-to-b from-red-500 to-red-600 text-white transition-all shadow-[0_0_10px_rgba(239,68,68,0.5)] cursor-pointer";
+            }
+        }
+
+        // レート・投入額変更の適用およびデータの強制全リセット
         function submitRateChange() {
             const targetRate = parseFloat(modalCustomRate.value);
             if (isNaN(targetRate) || targetRate <= 0) {
@@ -952,10 +989,11 @@
 
             playSoundEffect('insert');
             
-            // レート変更の実行
+            // 設定の適用
             state.rate = targetRate;
+            state.insertAmount = tempInsertAmount;
             
-            // レート変更時にすべてのデータを完全にリセット
+            // 設定変更時にすべてのデータを完全にリセット
             state.hasCard = false;
             state.balance = 0;
             state.tokens = 0;
@@ -963,7 +1001,7 @@
 
             refreshDisplay();
             rateModal.classList.add('hidden');
-            logMessage(`${state.rate}円スロットへ変更（データリセット）`);
+            logMessage(`${state.rate}円スロット(1回${state.insertAmount.toLocaleString()}円投入)へ設定（リセット）`);
             saveState();
         }
 
@@ -979,11 +1017,6 @@
         function closeTokensModal() {
             playSoundEffect('click');
             inputModal.classList.add('hidden');
-        }
-
-        function setModalQuickValue(val) {
-            playSoundEffect('click');
-            modalTokensInput.value = val;
         }
 
         function submitTokensModal() {
